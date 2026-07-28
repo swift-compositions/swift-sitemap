@@ -1,0 +1,15 @@
+# .github/metadata.yaml
+description: "A Swift package for generating XML sitemaps."
+homepage: "https://swift-institute.org"
+topics:
+  - seo
+  - sitemap
+  - sitemap-generator
+  - sitemap-xml
+  - sitemaps-org
+  - swift
+  - url-management
+  - web-development
+  - xml
+readme:
+  family: E
