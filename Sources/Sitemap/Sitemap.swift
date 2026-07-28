@@ -93,13 +93,13 @@ extension Sitemap.URL {
 
 extension Sitemap.URL {
     public enum ChangeFrequency: String, Codable, Hashable, Sendable {
-        case always = "always"
-        case hourly = "hourly"
-        case daily = "daily"
-        case weekly = "weekly"
-        case monthly = "monthly"
-        case yearly = "yearly"
-        case never = "never"
+        case always
+        case hourly
+        case daily
+        case weekly
+        case monthly
+        case yearly
+        case never
     }
 }
 
