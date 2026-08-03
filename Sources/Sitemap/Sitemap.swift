@@ -109,7 +109,7 @@ extension [Sitemap.URL] {
         _ dictionary: [Page: Sitemap.URL.MetaData]
     ) {
 
-        self = dictionary.map { (page, metadata) in
+        self = dictionary.map { page, metadata in
             let location = router(page)
 
             return Sitemap.URL(
