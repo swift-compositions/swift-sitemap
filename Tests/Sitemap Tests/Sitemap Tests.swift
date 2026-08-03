@@ -420,12 +420,15 @@ struct ArrayExtensionTests {
             case "https://example.com":
                 #expect(url.metadata.changeFrequency == .daily)
                 #expect(url.metadata.priority == 1.0)
+
             case "https://example.com/about":
                 #expect(url.metadata.changeFrequency == .monthly)
                 #expect(url.metadata.priority == 0.8)
+
             case "https://example.com/contact":
                 #expect(url.metadata.changeFrequency == .yearly)
                 #expect(url.metadata.priority == 0.5)
+
             default:
                 #expect(Bool(false), "Unexpected URL: \(url.location.absoluteString)")
             }
