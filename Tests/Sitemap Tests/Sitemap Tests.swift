@@ -668,7 +668,8 @@ struct EdgeCaseTests {
         let extremeDates = [
             calendar.date(from: DateComponents(year: 1970, month: 1, day: 1))!,  // Unix epoch
             calendar.date(from: DateComponents(year: 2000, month: 1, day: 1))!,  // Y2K
-            calendar.date(from: DateComponents(year: 2038, month: 1, day: 19))!,  // Unix timestamp limit
+            // Unix timestamp limit
+            calendar.date(from: DateComponents(year: 2038, month: 1, day: 19))!,
             calendar.date(from: DateComponents(year: 3000, month: 12, day: 31))!,  // Far future
         ]
 
