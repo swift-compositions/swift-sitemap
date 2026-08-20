@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 import Foundation
 import PackageDescription
@@ -25,7 +25,7 @@ let package = Package(
         .testTarget(
             name: .sitemap.tests,
             dependencies: [.sitemap]
-        )
+        ),
     ],
     swiftLanguageModes: [.v5]
 )
