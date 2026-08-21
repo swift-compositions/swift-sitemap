@@ -1,16 +1,7 @@
-//
-//  Sitemap Tests.swift
-//  swift-sitemap
-//
-//  Created by Coen ten Thije Boonkkamp on 26/07/2025.
-//
-
 import Foundation
 import Testing
 
 @testable import Sitemap
-
-// MARK: - Basic Sitemap Tests
 
 @Suite("Sitemap Basic Functionality")
 struct SitemapBasicTests {
@@ -54,8 +45,6 @@ struct SitemapBasicTests {
         #expect(sitemap.urls[2].location == url3)
     }
 }
-
-// MARK: - Sitemap.URL Tests
 
 @Suite("Sitemap.URL Functionality")
 struct SitemapURLTests {
@@ -108,8 +97,6 @@ struct SitemapURLTests {
     }
 }
 
-// MARK: - MetaData Tests
-
 @Suite("MetaData Functionality")
 struct MetaDataTests {
 
@@ -149,8 +136,6 @@ struct MetaDataTests {
     }
 }
 
-// MARK: - ChangeFrequency Tests
-
 @Suite("ChangeFrequency Enum")
 struct ChangeFrequencyTests {
 
@@ -185,8 +170,6 @@ struct ChangeFrequencyTests {
         #expect(set.contains(.weekly))
     }
 }
-
-// MARK: - XML Generation Tests
 
 @Suite("XML Generation")
 struct XMLGenerationTests {
@@ -273,8 +256,6 @@ struct XMLGenerationTests {
     }
 }
 
-// MARK: - Date Formatting Tests
-
 @Suite("Date Formatting")
 struct DateFormattingTests {
 
@@ -282,12 +263,11 @@ struct DateFormattingTests {
     func dateFormattingISO() throws {
         let url = try #require(URL(string: "https://example.com"))
 
-        // Test various dates
         let testDates = [
             ("2025-01-01", "2025-01-01"),
             ("2024-12-31", "2024-12-31"),
             ("2025-07-26", "2025-07-26"),
-            ("2000-02-29", "2000-02-29"),  // Leap year
+            ("2000-02-29", "2000-02-29"),
         ]
 
         let dateFormatter = DateFormatter()
@@ -311,7 +291,6 @@ struct DateFormattingTests {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        // Test year boundaries
         let dates = [
             "1999-12-31",
             "2000-01-01",
@@ -331,8 +310,6 @@ struct DateFormattingTests {
         }
     }
 }
-
-// MARK: - Priority Validation Tests
 
 @Suite("Priority Values")
 struct PriorityTests {
@@ -379,8 +356,6 @@ struct PriorityTests {
     }
 }
 
-// MARK: - Array Extension Tests
-
 @Suite("Array Extension for URL Generation")
 struct ArrayExtensionTests {
 
@@ -408,13 +383,11 @@ struct ArrayExtensionTests {
 
         #expect(urls.count == 3)
 
-        // Check that all expected URLs are present
         let locations = Set(urls.map(\.location.absoluteString))
         #expect(locations.contains("https://example.com"))
         #expect(locations.contains("https://example.com/about"))
         #expect(locations.contains("https://example.com/contact"))
 
-        // Check that metadata is properly applied
         for url in urls {
             switch url.location.absoluteString {
             case "https://example.com":
@@ -452,8 +425,6 @@ struct ArrayExtensionTests {
     }
 }
 
-// MARK: - Integration Tests
-
 @Suite("Integration Tests")
 struct IntegrationTests {
 
@@ -485,25 +456,21 @@ struct IntegrationTests {
         let sitemap = Sitemap(urls: urls)
         let xml = sitemap.xml
 
-        // Verify XML structure
         #expect(xml.contains("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
         #expect(xml.contains("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"))
         #expect(xml.contains("</urlset>"))
 
-        // Verify all URLs are present
         #expect(xml.contains("<loc>https://example.com</loc>"))
         #expect(xml.contains("<loc>https://example.com/about</loc>"))
         #expect(xml.contains("<loc>https://example.com/contact</loc>"))
         #expect(xml.contains("<loc>https://example.com/blog</loc>"))
 
-        // Verify metadata is correctly included/excluded
         #expect(xml.contains("<changefreq>daily</changefreq>"))
         #expect(xml.contains("<changefreq>monthly</changefreq>"))
         #expect(xml.contains("<changefreq>weekly</changefreq>"))
         #expect(xml.contains("<priority>1.0</priority>"))
         #expect(xml.contains("<priority>0.8</priority>"))
 
-        // Count URL entries
         let urlCount = xml.components(separatedBy: "<url>").count - 1
         #expect(urlCount == 4)
     }
@@ -512,7 +479,6 @@ struct IntegrationTests {
     func largeSitemapPerformance() throws {
         let startTime = Date()
 
-        // Generate 1000 URLs
         var urls: [Sitemap.URL] = []
         for i in 0..<1000 {
             let url = try #require(URL(string: "https://example.com/page\(i)"))
@@ -531,27 +497,25 @@ struct IntegrationTests {
 
         let timeElapsed = Date().timeIntervalSince(startTime)
 
-        // Verify structure
         #expect(urls.count == 1000)
         #expect(xml.contains("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
         #expect(xml.contains("https://example.com/page0"))
         #expect(xml.contains("https://example.com/page999"))
 
-        // Performance should be reasonable (less than 1 second)
         #expect(timeElapsed < 1.0)
     }
 
     @Test("Real-world URL patterns")
     func realWorldURLPatterns() throws {
         let urls = [
-            // Homepage
+
             Sitemap.URL(
                 location: try #require(URL(string: "https://myblog.com")),
                 lastModification: Date(),
                 changeFrequency: .daily,
                 priority: 1.0
             ),
-            // Static pages
+
             Sitemap.URL(
                 location: try #require(URL(string: "https://myblog.com/about")),
                 changeFrequency: .yearly,
@@ -562,20 +526,20 @@ struct IntegrationTests {
                 changeFrequency: .yearly,
                 priority: 0.5
             ),
-            // Blog posts
+
             Sitemap.URL(
                 location: try #require(URL(string: "https://myblog.com/posts/2025/01/hello-world")),
                 lastModification: Date(),
                 changeFrequency: .never,
                 priority: 0.6
             ),
-            // Category pages
+
             Sitemap.URL(
                 location: try #require(URL(string: "https://myblog.com/categories/swift")),
                 changeFrequency: .monthly,
                 priority: 0.7
             ),
-            // URLs with query parameters and fragments (should work)
+
             Sitemap.URL(
                 location: try #require(URL(string: "https://myblog.com/search?q=swift&page=1")),
                 changeFrequency: .never,
@@ -586,7 +550,6 @@ struct IntegrationTests {
         let sitemap = Sitemap(urls: urls)
         let xml = sitemap.xml
 
-        // Verify all URL types are handled correctly
         #expect(xml.contains("https://myblog.com"))
         #expect(xml.contains("https://myblog.com/about"))
         #expect(xml.contains("https://myblog.com/posts/2025/01/hello-world"))
@@ -595,19 +558,15 @@ struct IntegrationTests {
                 || xml.contains("https://myblog.com/search?q=swift&page=1")
         )
 
-        // Verify various change frequencies are present
         #expect(xml.contains("<changefreq>daily</changefreq>"))
         #expect(xml.contains("<changefreq>yearly</changefreq>"))
         #expect(xml.contains("<changefreq>never</changefreq>"))
         #expect(xml.contains("<changefreq>monthly</changefreq>"))
 
-        // Verify priority range
         #expect(xml.contains("<priority>1.0</priority>"))
         #expect(xml.contains("<priority>0.3</priority>"))
     }
 }
-
-// MARK: - Edge Cases and Error Conditions
 
 @Suite("Edge Cases")
 struct EdgeCaseTests {
@@ -638,14 +597,13 @@ struct EdgeCaseTests {
     func extremePriorityValues() throws {
         let url = try #require(URL(string: "https://example.com"))
 
-        // Test boundary values
         let extremeValues: [Float] = [
             Float.leastNormalMagnitude,
             Float.greatestFiniteMagnitude,
             0.0,
             1.0,
-            -1.0,  // Invalid but should still work
-            2.0,  // Invalid but should still work
+            -1.0,
+            2.0,
         ]
 
         for priority in extremeValues {
@@ -664,13 +622,12 @@ struct EdgeCaseTests {
         let url = try #require(URL(string: "https://example.com"))
         let calendar = Calendar.current
 
-        // Test extreme dates
         let extremeDates = [
-            calendar.date(from: DateComponents(year: 1970, month: 1, day: 1))!,  // Unix epoch
-            calendar.date(from: DateComponents(year: 2000, month: 1, day: 1))!,  // Y2K
-            // Unix timestamp limit
+            calendar.date(from: DateComponents(year: 1970, month: 1, day: 1))!,
+            calendar.date(from: DateComponents(year: 2000, month: 1, day: 1))!,
+
             calendar.date(from: DateComponents(year: 2038, month: 1, day: 19))!,
-            calendar.date(from: DateComponents(year: 3000, month: 12, day: 31))!,  // Far future
+            calendar.date(from: DateComponents(year: 3000, month: 12, day: 31))!,
         ]
 
         for date in extremeDates {
@@ -686,8 +643,6 @@ struct EdgeCaseTests {
     }
 }
 
-// MARK: - XML Validation Tests
-
 @Suite("XML Structure Validation")
 struct XMLValidationTests {
 
@@ -698,13 +653,10 @@ struct XMLValidationTests {
         let sitemap = Sitemap(urls: [sitemapURL])
         let xml = sitemap.xml
 
-        // Check XML declaration
         #expect(xml.hasPrefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
 
-        // Check namespace
         #expect(xml.contains("xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\""))
 
-        // Check proper nesting
         let lines = xml.components(separatedBy: .newlines)
         var inUrlset = false
         var inUrl = false
@@ -733,7 +685,6 @@ struct XMLValidationTests {
         let sitemapURL = Sitemap.URL(location: url)
         let xml = sitemapURL.xml
 
-        // URLs should be properly represented (either escaped or unescaped is acceptable)
         #expect(xml.contains("<loc>https://example.com/path?a=1&"))
         #expect(xml.contains("</loc>"))
     }

@@ -1,10 +1,3 @@
-//
-//  ReadmeVerificationTests.swift
-//  swift-sitemap
-//
-//  Created by README standardization process
-//
-
 import Foundation
 import Testing
 
@@ -15,7 +8,7 @@ struct ReadmeVerificationTests {
 
     @Test("Quick Start example from README lines 28-49")
     func quickStartExample() throws {
-        // Create URLs with metadata
+
         let urls = [
             Sitemap.URL(
                 location: try #require(URL(string: "https://example.com")),
@@ -30,11 +23,9 @@ struct ReadmeVerificationTests {
             ),
         ]
 
-        // Generate sitemap
         let sitemap = Sitemap(urls: urls)
         let xmlString = sitemap.xml
 
-        // Verify the XML is generated
         #expect(!xmlString.isEmpty)
         #expect(xmlString.contains("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
         #expect(
@@ -67,11 +58,9 @@ struct ReadmeVerificationTests {
         let urls = [Sitemap.URL](router: router, metadata)
         let sitemap = Sitemap(urls: urls)
 
-        // Verify the sitemap is created correctly
         #expect(urls.count == 3)
         #expect(sitemap.urls.count == 3)
 
-        // Verify all URLs are present
         let locations = Set(sitemap.urls.map(\.location.absoluteString))
         #expect(locations.contains("https://example.com"))
         #expect(locations.contains("https://example.com/about"))
@@ -101,7 +90,6 @@ struct ReadmeVerificationTests {
         let sitemap = Sitemap(urls: urls)
         let xml = sitemap.xml
 
-        // Verify XML structure matches README example
         #expect(xml.contains("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"))
         #expect(xml.contains("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">"))
         #expect(xml.contains("<url>"))
@@ -121,7 +109,6 @@ struct ReadmeVerificationTests {
         let url = try #require(URL(string: "https://example.com"))
         let sitemapURL = Sitemap.URL(location: url)
 
-        // Test init(urls:)
         let sitemap = Sitemap(urls: [sitemapURL])
 
         #expect(sitemap.urls.count == 1)
@@ -134,7 +121,6 @@ struct ReadmeVerificationTests {
         let sitemapURL = Sitemap.URL(location: url)
         let sitemap = Sitemap(urls: [sitemapURL])
 
-        // Test xml property
         let xmlString = sitemap.xml
 
         #expect(!xmlString.isEmpty)
@@ -158,10 +144,8 @@ struct ReadmeVerificationTests {
             priority: metadata.priority
         )
 
-        // Verify location property
         #expect(sitemapURL.location == url)
 
-        // Verify metadata property
         #expect(sitemapURL.metadata.lastModification == metadata.lastModification)
         #expect(sitemapURL.metadata.changeFrequency == metadata.changeFrequency)
         #expect(sitemapURL.metadata.priority == metadata.priority)
@@ -179,7 +163,6 @@ struct ReadmeVerificationTests {
             priority: priority
         )
 
-        // Verify all optional properties
         #expect(metadata.lastModification == date)
         #expect(metadata.changeFrequency == frequency)
         #expect(metadata.priority == priority)
@@ -187,7 +170,7 @@ struct ReadmeVerificationTests {
 
     @Test("API Reference - ChangeFrequency enum values from README line 128")
     func changeFrequencyValues() {
-        // Verify all enum cases exist
+
         _ = Sitemap.URL.ChangeFrequency.always
         _ = Sitemap.URL.ChangeFrequency.hourly
         _ = Sitemap.URL.ChangeFrequency.daily
@@ -196,7 +179,6 @@ struct ReadmeVerificationTests {
         _ = Sitemap.URL.ChangeFrequency.yearly
         _ = Sitemap.URL.ChangeFrequency.never
 
-        // Verify they have correct raw values
         #expect(Sitemap.URL.ChangeFrequency.always.rawValue == "always")
         #expect(Sitemap.URL.ChangeFrequency.hourly.rawValue == "hourly")
         #expect(Sitemap.URL.ChangeFrequency.daily.rawValue == "daily")

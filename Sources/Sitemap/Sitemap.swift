@@ -1,10 +1,3 @@
-//
-//  Sitemap.swift
-//  swift-sitemap
-//
-//  Created by Coen ten Thije Boonkkamp on 07-01-2024.
-//
-
 import Foundation
 
 public struct Sitemap {
