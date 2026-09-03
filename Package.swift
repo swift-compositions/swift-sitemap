@@ -3,31 +3,22 @@
 import Foundation
 import PackageDescription
 
-extension String {
-    static let sitemap: Self = "Sitemap"
-}
-
-extension Target.Dependency {
-    static var sitemap: Self { .target(name: .sitemap) }
-}
-
 let package = Package(
     name: "swift-sitemap",
     products: [
-        .library(name: .sitemap, targets: [.sitemap])
+        .library(name: "Sitemap", targets: ["Sitemap"])
     ],
     dependencies: [],
     targets: [
         .target(
-            name: .sitemap,
+            name: "Sitemap",
             dependencies: []
         ),
         .testTarget(
-            name: .sitemap.tests,
-            dependencies: [.sitemap]
+            name: "Sitemap Tests",
+            dependencies: [.target(name: "Sitemap")]
         ),
     ],
     swiftLanguageModes: [.v5]
 )
 
-extension String { var tests: Self { self + " Tests" } }
