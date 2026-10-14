@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public struct Sitemap {
     public let urls: [Sitemap.URL]

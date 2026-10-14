@@ -125,7 +125,6 @@ struct ReadmeVerificationTests {
 
         #expect(!xmlString.isEmpty)
         #expect(xmlString.contains("<?xml"))
-        #expect(xmlString is String)
     }
 
     @Test("API Reference - Sitemap.URL properties from README lines 113-115")
